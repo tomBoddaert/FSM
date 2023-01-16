@@ -1,0 +1,17 @@
+[package]
+name = "fsm"
+version = "0.1.0"
+authors = ["Tom Boddaert <fsm@tomboddaert.com>"]
+edition = "2021"
+description = "A simple crate for defining Finite State Machines"
+readme = "README.md"
+homepage = "https://github.com/tomboddaert/fsm/"
+repository = "https://github.com/tomboddaert/fsm/"
+license = "Creative Commons Attribution 4.0 International"
+keywords = ["fsm", "finite-state-machine"]
+categories = ["config"]
+
+[lib]
+name = "fsm"
+path = "lib/lib.rs"
+crate-type = ["lib"]
