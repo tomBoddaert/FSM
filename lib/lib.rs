@@ -80,6 +80,7 @@ pub trait FSM {
     /// Give an input to the FSM
     fn transform(&mut self, input: &Self::Domain);
 
+    #[cfg(feature = "std")]
     fn run<I>(&mut self, inputs: I)
     where
         I: Iterator<Item = Self::Domain>,
@@ -189,6 +190,7 @@ macro_rules! MakeFSM {
     };
 }
 
+#[cfg(feature = "std")]
 #[cfg(test)]
 mod test {
     use super::*;

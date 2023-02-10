@@ -20,7 +20,7 @@ See more examples in the [examples](/examples) directory.
 A tristate FSM, with `Prev` and `Next` inputs, that defaults to the first state and does not wrap.
 
 ``` rust
-use fsm::{self, FSM};
+use fsm::{self, FSM, MakeFSM};
 
 #[derive(Default)]
 enum States {
@@ -38,7 +38,7 @@ enum Inputs {
 use Inputs::*;
 
 // Define the Finite State Machine
-fsm::MakeFSM!(Tristate, default States, Inputs,
+MakeFSM!(Tristate, default States, Inputs,
     (S0, Prev) => S0,
     (S0, Next) => S1,
     (S1, Prev) => S0,
