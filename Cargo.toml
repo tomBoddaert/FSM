@@ -1,6 +1,6 @@
 [package]
 name = "fsm"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Tom Boddaert <fsm@tomboddaert.com>"]
 edition = "2021"
 description = "A simple crate for defining Finite State Machines"
@@ -15,3 +15,7 @@ categories = ["config"]
 name = "fsm"
 path = "lib/lib.rs"
 crate-type = ["lib"]
+
+[features]
+default = ["std"]
+std = []

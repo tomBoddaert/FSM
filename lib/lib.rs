@@ -56,7 +56,7 @@
 //!
 //! machine.transform(&Prev);
 //! assert!(matches!(machine.state(), S0));
-//! ```
+//! ``` 
 
 #![warn(
     clippy::all,
@@ -65,6 +65,8 @@
     clippy::perf,
     clippy::cargo
 )]
+
+#![cfg_attr(not(feature = "std"), no_std)]
 
 use core::iter::Iterator;
 
