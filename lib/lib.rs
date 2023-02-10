@@ -58,6 +58,8 @@
 //! assert!(matches!(machine.state(), S0));
 //! ```
 
+#![cfg_attr(not(feature = "std"), no_std)]
+
 #![warn(
     clippy::all,
     clippy::pedantic,
@@ -80,7 +82,6 @@ pub trait FSM {
     /// Give an input to the FSM
     fn transform(&mut self, input: &Self::Domain);
 
-    #[cfg(feature = "std")]
     fn run<I>(&mut self, inputs: I)
     where
         I: Iterator<Item = Self::Domain>,
@@ -182,7 +183,7 @@ macro_rules! MakeFSM {
         $crate::MakeFSM!($id, $states, $dom, $($matcher => $result),*);
 
         impl Default for $id
-        where <$id as $crate::FSM>::States: std::default::Default {
+        where <$id as $crate::FSM>::States: core::default::Default {
             fn default() -> Self {
                 Self(<$id as $crate::FSM>::States::default())
             }
@@ -190,7 +191,6 @@ macro_rules! MakeFSM {
     };
 }
 
-#[cfg(feature = "std")]
 #[cfg(test)]
 mod test {
     use super::*;
