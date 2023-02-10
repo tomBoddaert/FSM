@@ -66,6 +66,8 @@
     clippy::cargo
 )]
 
+use core::iter::Iterator;
+
 /// The description of a Finite State Machine.
 /// This can be implemented with the `MakeFSM` macro.
 pub trait FSM {
