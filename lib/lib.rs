@@ -73,8 +73,9 @@ use core::iter::Iterator;
 /// The description of a Finite State Machine.
 /// This can be implemented with the `MakeFSM` macro.
 pub trait FSM {
-    /// The input
+    /// The set of all inputs
     type Domain;
+    /// The set of all states
     type States;
 
     /// Create a new FSM
@@ -159,7 +160,7 @@ pub trait FSM {
 /// 
 /// Look at the examples directory for examples of how to use your new Finite State Machine!
 macro_rules! MakeFSM {
-    ( $id:ident, $states:path, $dom:path, $($matcher:pat => $result:expr),* $(,)* ) => {
+    ( $id:ident, $states:path, $dom:path, $($matcher:pat => $result:expr),* $(,)? ) => {
         struct $id ($states);
 
         impl $crate::FSM for $id {
@@ -181,7 +182,7 @@ macro_rules! MakeFSM {
             }
         }
     };
-    ( $id:ident, default $states:path, $dom:path, $($matcher:pat => $result:expr),* $(,)* ) => {
+    ( $id:ident, default $states:path, $dom:path, $($matcher:pat => $result:expr),* $(,)? ) => {
         $crate::MakeFSM!($id, $states, $dom, $($matcher => $result),*);
 
         impl Default for $id

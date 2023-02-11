@@ -1,6 +1,6 @@
 [package]
 name = "fsm"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Tom Boddaert <fsm@tomboddaert.com>"]
 edition = "2021"
 description = "A simple crate for defining Finite State Machines"
