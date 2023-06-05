@@ -7,7 +7,7 @@ description = "A simple crate for defining Finite State Machines"
 readme = "README.md"
 homepage = "https://github.com/tomboddaert/fsm/"
 repository = "https://github.com/tomboddaert/fsm/"
-license = "Creative Commons Attribution 4.0 International"
+license = "MIT OR Apache-2.0"
 keywords = ["fsm", "finite-state-machine"]
 categories = ["config"]
 
