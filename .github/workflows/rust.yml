@@ -21,14 +21,14 @@ jobs:
         cargo clippy --all-targets
         cargo clippy --all-targets --all-features
         cargo clippy --no-default-features
-        cargo clippy --no-default-features --features="alloc"
+        cargo clippy --no-default-features --features="derive"
         cargo clippy --all-features -- -W clippy::unwrap_used -W clippy::expect_used
     - name: Build
       run: |
         cargo build --verbose
         cargo build --verbose --all-features
         cargo build --verbose --no-default-features
-        cargo build --verbose --no-default-features --features="alloc"
+        cargo build --verbose --no-default-features --features="derive"
     - name: Run tests
       run: |
         cargo test
