@@ -1,0 +1,25 @@
+[package]
+name = "fsm"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+description.workspace = true
+readme.workspace = true
+homepage.workspace = true
+repository.workspace = true
+license.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[lib]
+name = "fsm"
+path = "lib/lib.rs"
+crate-type = ["lib"]
+
+[features]
+default = ["std", "derive"]
+std = []
+derive = ["dep:fsm_derive"]
+
+[dependencies]
+fsm_derive = { path = "../fsm_derive", optional = true }

@@ -1,4 +1,4 @@
-use fsm::{self, FSM};
+use fsm::{DefineTransform, FSM};
 
 // Define the states
 #[derive(Default)]
@@ -13,8 +13,8 @@ enum Q {
 }
 use Q::*;
 
-// Implement States for Q
-fsm::MakeFSM!(HasHello, default Q, char,
+// Define the transformation function
+DefineTransform!(has_hello, Q, char,
     (Q0, 'h') => Q1,
     (Q1, 'e') => Q2,
     (Q2, 'l') => Q3,
@@ -28,8 +28,8 @@ fn main() {
     let tests = vec!["", "abc", "hello", "a hello a", "h ello", "hell o"];
 
     for test in tests {
-        let mut machine = HasHello::default();
-        machine.run(test.chars());
+        let mut machine = FSM::default_with_transform(has_hello);
+        machine = machine.run(test.chars());
 
         println!(
             "'{test}' => {}",
@@ -39,4 +39,9 @@ fn main() {
             }
         );
     }
+}
+
+#[test]
+fn test() {
+    main()
 }

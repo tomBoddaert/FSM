@@ -1,6 +1,13 @@
-[package]
-name = "fsm"
-version = "0.1.6"
+[workspace]
+resolver = "2"
+members = [
+  "fsm",
+  "fsm_derive"
+]
+default-members = ["fsm"]
+
+[workspace.package]
+version = "1.0.0-alpha.1"
 authors = ["Tom Boddaert <fsm@tomboddaert.com>"]
 edition = "2021"
 description = "A simple crate for defining Finite State Machines"
@@ -9,13 +16,5 @@ homepage = "https://github.com/tomboddaert/fsm/"
 repository = "https://github.com/tomboddaert/fsm/"
 license = "MIT OR Apache-2.0"
 keywords = ["fsm", "finite-state-machine"]
-categories = ["config"]
+categories = ["no-std", "parsing"]
 
-[lib]
-name = "fsm"
-path = "lib/lib.rs"
-crate-type = ["lib"]
-
-[features]
-default = ["std"]
-std = []

@@ -1,6 +1,6 @@
-use fsm::{self, MakeFSM, FSM};
+use fsm::{AcceptStates, DefineTransform, FSM};
 
-#[derive(Default, Debug)]
+#[derive(Debug, Default, PartialEq)]
 enum States {
     #[default]
     Empty,
@@ -12,7 +12,8 @@ enum States {
 }
 use States::*;
 
-MakeFSM!(JsonStringValidator, default States, char,
+// Define the transformation function
+DefineTransform!(validate_json_char, States, char,
     (Empty, '"') => InString,
     (InString, '"') => End,
 
@@ -28,9 +29,9 @@ MakeFSM!(JsonStringValidator, default States, char,
     (_, _) => Invalid,
 );
 
-impl JsonStringValidator {
-    fn is_valid(&self) -> bool {
-        matches!(self.state(), End)
+impl AcceptStates for States {
+    fn is_accepted(&self) -> bool {
+        self == &End
     }
 }
 
@@ -56,10 +57,15 @@ fn main() {
     for (test, expected) in tests {
         print!("{test}");
 
-        let mut machine = JsonStringValidator::default();
-        machine.run(test.chars());
+        let mut machine = FSM::default_with_transform(validate_json_char);
+        machine = machine.run(test.chars());
 
-        assert!(machine.is_valid() == expected);
+        assert!(machine.is_accepted() == expected);
         println!(" => {}", if expected { '✅' } else { '❌' });
     }
+}
+
+#[test]
+fn test() {
+    main()
 }

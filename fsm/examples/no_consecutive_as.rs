@@ -1,4 +1,4 @@
-use fsm::{self, FSM};
+use fsm::{DefineTransform, FSM};
 
 // Define the input range
 #[derive(Debug)]
@@ -16,8 +16,8 @@ enum Q {
     Q2,
 }
 
-// Implement States for Q
-fsm::MakeFSM!(No2As, default Q, Sigma,
+// Define the transformation function
+DefineTransform!(no_2_as, Q, Sigma,
     // If an A is given, move to Q1
     (Q::Q0, Sigma::A) => Q::Q1,
     (Q::Q0, Sigma::B) => Q::Q0,
@@ -44,12 +44,17 @@ fn main() {
         print!("{inputs:?}");
 
         // Create a new FSM using the default state
-        let mut machine = No2As::default();
+        let mut machine = FSM::default_with_transform(no_2_as);
         // Run the inputs
-        machine.run(inputs.into_iter());
+        machine = machine.run(inputs.into_iter());
 
         // Check if the end state is a 'final' state
         let output = matches!(machine.state(), Q::Q0 | Q::Q1);
         println!(" => {}", if output { '✅' } else { '❌' });
     }
+}
+
+#[test]
+fn test() {
+    main()
 }

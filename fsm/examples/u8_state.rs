@@ -1,4 +1,4 @@
-use fsm::{self, FSM};
+use fsm::{DefineTransform, FSM};
 
 // In this example,
 // false = -1
@@ -6,8 +6,8 @@ use fsm::{self, FSM};
 // and the numbers are in the
 // range 0..=31 and wrap
 
-// Define the FSM
-fsm::MakeFSM!(Wrap31, u8, bool,
+// Define the transformation function
+DefineTransform!(mod_32, u8, bool,
     (0, false) => 31,
     (31, true) => 0,
     (n, false) => n - 1,
@@ -27,12 +27,17 @@ fn main() {
     ];
 
     for (init, input, test) in tests {
-        print!("{init} + {input}");
+        print!("{init: <2} + {input: <5}");
 
-        let mut machine = Wrap31::new(init);
-        machine.transform(&input);
+        let mut machine = FSM::new(init, mod_32);
+        machine = machine.apply(input);
 
         assert!(*machine.state() == test);
         println!(" => {}", machine.state());
     }
+}
+
+#[test]
+fn test() {
+    main()
 }
