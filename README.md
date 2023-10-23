@@ -17,10 +17,10 @@ See more examples in the [examples](/examples) directory.
 
 A tristate FSM, with `Prev` and `Next` inputs, that defaults to the first state and does not wrap.
 
-``` rust
+```rust
 use fsm::{DefineTransform, FSM};
 
-#[derive(Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 enum States {
     #[default]
     S0,
@@ -36,7 +36,7 @@ enum Inputs {
 use Inputs::*;
 
 // Define the transform function
-fsm::DefineTransform!(tristate, States, Inputs,
+DefineTransform!(tristate, States, Inputs,
     (S0, Prev) => S0,
     (S0, Next) => S1,
     (S1, Prev) => S0,
@@ -47,27 +47,27 @@ fsm::DefineTransform!(tristate, States, Inputs,
 
 // Test increasing
 let mut machine = FSM::default_with_transform(tristate);
-assert!(matches!(machine.state(), S0));
+assert_eq!(machine.state(), &S0);
 
-machine = machine.apply(Next);
-assert!(matches!(machine.state(), S1));
+machine.apply_assign(Next);
+assert_eq!(machine.state(), &S1);
 
-machine = machine.apply(Next);
-assert!(matches!(machine.state(), S2));
+machine.apply_assign(Next);
+assert_eq!(machine.state(), &S2);
 
-machine = machine.apply(Next);
-assert!(matches!(machine.state(), S2));
+machine.apply_assign(Next);
+assert_eq!(machine.state(), &S2);
 
 // Test decreasing
 let mut machine = FSM::new(S2, tristate);
-assert!(matches!(machine.state(), S2));
+assert_eq!(machine.state(), &S2);
 
-machine = machine.apply(Prev);
-assert!(matches!(machine.state(), S1));
+machine.apply_assign(Prev);
+assert_eq!(machine.state(), &S1);
 
-machine = machine.apply(Prev);
-assert!(matches!(machine.state(), S0));
+machine.apply_assign(Prev);
+assert_eq!(machine.state(), &S0);
 
-machine = machine.apply(Prev);
-assert!(matches!(machine.state(), S0));
+machine.apply_assign(Prev);
+assert_eq!(machine.state(), &S0);
 ```

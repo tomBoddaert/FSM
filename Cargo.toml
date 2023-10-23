@@ -7,7 +7,7 @@ members = [
 default-members = ["fsm"]
 
 [workspace.package]
-version = "1.0.0-alpha.1"
+version = "1.0.0"
 authors = ["Tom Boddaert <fsm@tomboddaert.com>"]
 edition = "2021"
 description = "A simple crate for defining Finite State Machines"

@@ -1,5 +1,3 @@
-use core::ptr::{addr_of, addr_of_mut};
-
 use crate::AcceptStates;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -74,15 +72,13 @@ impl<Domain, States> FSM<Domain, States> {
 
     #[inline]
     /// Apply an input to the Finite State Machine in place.
-    pub fn apply_assign(&mut self, input: Domain) {
-        // SAFETY:
-        // The data read is not read again, so it is safe to read it.
-        let state = unsafe { addr_of!(self.state).read() };
+    pub fn apply_assign(&mut self, input: Domain)
+    where
+        States: Clone,
+    {
+        let state = self.state.clone();
         let new_state = (self.transform)(state, input);
-        // SAFETY:
-        // Overwriting without dropping is safe.
-        // Also, the data has been read and moved, so it should have been dropped.
-        unsafe { addr_of_mut!(self.state).write(new_state) };
+        self.state = new_state;
     }
 
     #[must_use = "this returns the result of the transformations, without modifying the original"]
@@ -101,10 +97,15 @@ impl<Domain, States> FSM<Domain, States> {
     /// Apply a set of inputs to the Finite State Machine in place.
     pub fn run_assign<I>(&mut self, inputs: I)
     where
+        States: Clone,
         I: IntoIterator<Item = Domain>,
     {
+        let mut state = self.state.clone();
+
         for input in inputs {
-            self.apply_assign(input);
+            state = (self.transform)(state, input);
         }
+
+        self.state = state;
     }
 }

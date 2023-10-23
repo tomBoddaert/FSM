@@ -6,7 +6,7 @@
 //! ```
 //! use fsm::{DefineTransform, FSM};
 //!
-//! #[derive(Default)]
+//! #[derive(Clone, Copy, Debug, Default, PartialEq)]
 //! enum States {
 //!     #[default]
 //!     S0,
@@ -33,29 +33,29 @@
 //!
 //! // Test increasing
 //! let mut machine = FSM::default_with_transform(tristate);
-//! assert!(matches!(machine.state(), S0));
+//! assert_eq!(machine.state(), &S0);
 //!
-//! machine = machine.apply(Next);
-//! assert!(matches!(machine.state(), S1));
+//! machine.apply_assign(Next);
+//! assert_eq!(machine.state(), &S1);
 //!
-//! machine = machine.apply(Next);
-//! assert!(matches!(machine.state(), S2));
+//! machine.apply_assign(Next);
+//! assert_eq!(machine.state(), &S2);
 //!
-//! machine = machine.apply(Next);
-//! assert!(matches!(machine.state(), S2));
+//! machine.apply_assign(Next);
+//! assert_eq!(machine.state(), &S2);
 //!
 //! // Test decreasing
 //! let mut machine = FSM::new(S2, tristate);
-//! assert!(matches!(machine.state(), S2));
+//! assert_eq!(machine.state(), &S2);
 //!
-//! machine = machine.apply(Prev);
-//! assert!(matches!(machine.state(), S1));
+//! machine.apply_assign(Prev);
+//! assert_eq!(machine.state(), &S1);
 //!
-//! machine = machine.apply(Prev);
-//! assert!(matches!(machine.state(), S0));
+//! machine.apply_assign(Prev);
+//! assert_eq!(machine.state(), &S0);
 //!
-//! machine = machine.apply(Prev);
-//! assert!(matches!(machine.state(), S0));
+//! machine.apply_assign(Prev);
+//! assert_eq!(machine.state(), &S0);
 //! ```
 
 #![warn(
